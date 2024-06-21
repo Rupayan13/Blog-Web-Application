@@ -25,8 +25,10 @@
             <header class="header">
                 <h1>Dashboard</h1>
                 <div class="user-controls">
-                    <span class="user-name">Admin</span>
-                    <button class="logout-button">Logout</button>
+                    <% if(locals.username){ %>
+                    <span class="user-name"><%= username %></span>
+                    <% } %>
+                    <button class="logout-button"><a href="/logoutAdmin" style="text-decoration: none; color: white;">Logout</a></button>
                 </div>
             </header>
             <section class="content">

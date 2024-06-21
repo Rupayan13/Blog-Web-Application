@@ -10,7 +10,7 @@
 <body>
     <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Navbar</a>
+          <a class="navbar-brand" href="/">Bloggify</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -20,11 +20,23 @@
                 <a class="nav-link active" aria-current="page" href="/">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
+                <a class="nav-link" href="/about">About</a>
               </li>
             </ul>
             <div class="d-flex" role="search">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <% if(locals.user){ %>
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <%= user.username %>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/logout">logout</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                <% }else{ %>
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/signup">Register</a>
                     </li>
@@ -38,6 +50,7 @@
                     </ul>
                     </li>
                 </ul>
+              <% } %>
             </div>
           </div>
         </div>
