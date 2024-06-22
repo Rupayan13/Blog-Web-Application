@@ -7,20 +7,19 @@
     <link rel="stylesheet" href="/styles/blog.css">
 </head>
 <body>
+    <% if(locals.title) {%>
     <header>
-        <h1>My Blog</h1>
-        <h3>Author: user</h3>
+        <h2>Author: <%= user %></h2>
     </header>
     <main>
         <article class="blog-post">
-            <img src="blog-image.jpg" alt="Blog Image">
-            <h2>Blog Title</h2>
-            <p class="date">June 20, 2024</p>
+            <img width="100%" src="/images/<%= image %>" alt="Blog Image">
+            <h2><%= title %></h2>
             <p class="content">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                <%= content %>
             </p>
         </article>
     </main>
+    <% } %>
 </body>
 </html>
