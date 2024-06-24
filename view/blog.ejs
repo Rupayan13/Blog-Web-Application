@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Blog</title>
+    <title>Blog</title>
     <link rel="stylesheet" href="/styles/blog.css">
 </head>
 <body>
@@ -18,6 +18,9 @@
             <p class="content">
                 <%= content %>
             </p>
+            <% if(locals.reqFrom){ %>
+                <button class="read-more"><a style="text-decoration: none; color: white" href="/add/<%= id %>">Add for Users</a></button>
+            <% } %>
         </article>
     </main>
     <% } %>

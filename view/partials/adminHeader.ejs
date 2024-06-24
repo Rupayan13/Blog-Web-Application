@@ -14,8 +14,8 @@
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="#">Dashboard</a></li>
-                    <li><a href="#">Users</a></li>
+                    <li><a href="/admin">Dashboard</a></li>
+                    <li><a href="/reqBlogs">Requested Blogs</a></li>
                     <li><a href="#">Settings</a></li>
                     <li><a href="#">Reports</a></li>
                 </ul>
@@ -23,7 +23,9 @@
         </aside>
         <main class="main-content">
             <header class="header">
-                <h1>Dashboard</h1>
+                <% if(locals.title){ %>
+                <h1><%= title %></h1>
+                <% } %>
                 <div class="user-controls">
                     <% if(locals.username){ %>
                     <span class="user-name"><%= username %></span>
@@ -31,11 +33,3 @@
                     <button class="logout-button"><a href="/logoutAdmin" style="text-decoration: none; color: white;">Logout</a></button>
                 </div>
             </header>
-            <section class="content">
-                <h2>Welcome, Admin!</h2>
-                <p>This is your admin panel. Here you can manage your website's content and users.</p>
-            </section>
-        </main>
-    </div>
-</body>
-</html>

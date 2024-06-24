@@ -50,7 +50,7 @@ const blogSchema = new mongoose.Schema({
     title: String,
     content: String,
     image: String,
-    user: [authSchema],
+    user: authSchema,
     visibility: {type: Number, default : 0}
 });
 
@@ -65,7 +65,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.get("/", async (req, res)=>{
     try {
-        const blogsAll = await Blog.find({visibility: 0});
+        const blogsAll = await Blog.find({visibility: 1});
         res.render(__dirname+"/view/home", { blogList: blogsAll, user: req.user});
     } catch (err) {
         console.log(err);
@@ -143,7 +143,7 @@ app.get("/blog/:id", checkNotAuthenticated, async(req, res)=>{
             title: blogFind.title,
             content: blogFind.content,
             image: blogFind.image,
-            user: blogFind.user[0].username
+            user: blogFind.user.username
           });
         } catch (err) {
           console.log(err);
@@ -173,7 +173,45 @@ app.post("/submit", upload.single("image"), checkNotAuthenticated, async(req, re
 });
 
 app.get("/admin", checkAuthenticatedAdmin, (req, res)=>{
-    res.render(__dirname+"/view/admin", {username: req.session.username});
+    res.render(__dirname+"/view/adminDashboard", {username: req.session.username, title: "Dashboard"});
+});
+
+app.get("/reqBlogs", checkAuthenticatedAdmin, async (req, res)=>{
+    try {
+        const blogsAll = await Blog.find({visibility: 0});
+        res.render(__dirname+"/view/requestedBlogs", { username: req.session.username, blogList: blogsAll, title: "Requested Blogs"});
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+app.get("/adminBlog/:id", checkAuthenticatedAdmin, async(req, res)=>{
+    const blogID = req.params.id;
+        try {
+          const blogFind = await Blog.findOne({_id: blogID});
+          res.render(__dirname + "/view/blog", 
+          {
+            id: blogFind._id,
+            title: blogFind.title,
+            content: blogFind.content,
+            image: blogFind.image,
+            user: blogFind.user.username,
+            reqFrom: "admin"
+          });
+        } catch (err) {
+          console.log(err);
+        }
+});
+
+app.get("/add/:id", checkAuthenticatedAdmin, async(req, res)=>{
+    const blogID = req.params.id;
+    try {
+        const blogFind = await Blog.updateOne({_id: blogID}, {$set: {visibility: 1}});
+        console.log(blogFind);
+        res.redirect("/admin");
+      } catch (err) {
+        console.log(err);
+      }
 });
 
 app.get("/adminLogin", (req, res)=>{

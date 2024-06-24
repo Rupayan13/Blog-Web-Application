@@ -46,6 +46,23 @@ main {
     color: #555;
 }
 
+.blog-post .read-more {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.blog-post .read-more:hover {
+    background-color: #0431af;
+}
+
 /* Responsive Styles */
 @media (max-width: 600px) {
     body {
