@@ -1,6 +1,6 @@
 <%- include("./partials/adminHeader.ejs") %>
 <section class="content">
-    <h2>Recent Blog Posts</h2>
+    <h2>Added Blog Posts</h2>
     <% if(locals.blogList) { %>
     <div class="posts">
         <% blogList.forEach((blogs)=>{ %>
@@ -8,7 +8,7 @@
           <div class="post-content">
             <h3><%= blogs.title %></h3>
             <p><%= blogs.content.substring(0, 100) %>...</p>
-            <button class="read-more-button"><a style="text-decoration: none; color: white" href="/reqBlog/<%= blogs._id %>">Read More...</a></button>
+            <button class="read-more-button"><a style="text-decoration: none; color: white" href="/addedBlog/<%= blogs._id %>">Read More...</a></button>
           </div>
         </div>
         <% }); %>

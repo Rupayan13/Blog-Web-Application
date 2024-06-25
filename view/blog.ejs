@@ -18,8 +18,11 @@
             <p class="content">
                 <%= content %>
             </p>
-            <% if(locals.reqFrom){ %>
+            <% if(locals.reqBlog){ %>
+                <% if(reqBlog=="true") {%>
                 <button class="read-more"><a style="text-decoration: none; color: white" href="/add/<%= id %>">Add for Users</a></button>
+                <button class="read-more"><a style="text-decoration: none; color: white" href="/remove/<%= id %>">Delete for Users</a></button>
+                <% } %>
             <% } %>
         </article>
     </main>

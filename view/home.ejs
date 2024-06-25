@@ -1,13 +1,12 @@
 <%- include("./partials/header.ejs") %>
       <!-- Hero Section -->
       <div class="px-4 py-5 my-5 text-center">
-        <img class="d-block mx-auto mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-        <h1 class="display-5 fw-bold text-body-emphasis">Centered hero</h1>
+        <img class="d-block mx-auto mb-4" src="https://www.freeiconspng.com/uploads/blogger-logo-icon-png-12.png" alt="" width="72" height="57">
+        <h1 class="display-5 fw-bold text-body-emphasis">Blogging Website</h1>
         <div class="col-lg-6 mx-auto">
-          <p class="lead mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+          <p class="lead mb-4">A blogging website serves as a digital platform where individuals can share their thoughts, experiences, and expertise on various topics through written articles, often engaging with a wide audience. It offers tools for content creation, customization, and interaction, enabling bloggers to express themselves and connect with readers worldwide.</p>
           <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <button type="button" class="btn btn-dark btn-lg px-4 gap-3" fdprocessedid="os9we5">Primary button</button>
-            <button type="button" class="btn btn-outline-secondary btn-lg px-4" fdprocessedid="cwso7wh">Secondary</button>
+            <button type="button" class="btn btn-dark btn-lg px-4 gap-3" fdprocessedid="os9we5"><a style="text-decoration: none; color: white;" href="/add-blog">Add Blog</a></button>
           </div>
         </div>
       </div>
@@ -23,7 +22,7 @@
               <div class="card-body">
                 <h5 class="card-title"><%= blogs.title %></h5>
                 <p class="card-text"><%= blogs.content.substring(0, 100) %>...</p>
-                <a href="/blog/<%= blogs._id %>">See More...</a>
+                <button type="button" class="btn btn-dark"><a style="text-decoration: none; color: white;" href="/blog/<%= blogs._id %>">See More...</a></button>
               </div>
             </div>
             <% }); %>

@@ -150,10 +150,6 @@ app.get("/blog/:id", checkNotAuthenticated, async(req, res)=>{
         }
 });
 
-app.get("/about", checkNotAuthenticated, (req, res)=>{
-    res.render(__dirname+"/view/about", {user: req.user});
-});
-
 app.get("/add-blog", checkNotAuthenticated, (req, res)=>{
     res.render(__dirname+"/view/add-blog", {user: req.user});
 });
@@ -172,8 +168,21 @@ app.post("/submit", upload.single("image"), checkNotAuthenticated, async(req, re
     res.redirect("/");
 });
 
-app.get("/admin", checkAuthenticatedAdmin, (req, res)=>{
-    res.render(__dirname+"/view/adminDashboard", {username: req.session.username, title: "Dashboard"});
+app.get("/admin", checkAuthenticatedAdmin, async (req, res)=>{
+    try{
+        const users = await User.find().count();
+        const reqBlogs = await Blog.find({visibility : 0}).count();
+        const addedBlogs = await Blog.find({visibility : 1}).count();
+        res.render(__dirname+"/view/adminDashboard", {
+            username: req.session.username, 
+            title: "Dashboard", 
+            totalUsers: users, 
+            reqBlogs: reqBlogs, 
+            addedBlogs: addedBlogs
+        });
+    }catch (err) {
+        console.log(err);
+    }
 });
 
 app.get("/reqBlogs", checkAuthenticatedAdmin, async (req, res)=>{
@@ -185,7 +194,7 @@ app.get("/reqBlogs", checkAuthenticatedAdmin, async (req, res)=>{
     }
 });
 
-app.get("/adminBlog/:id", checkAuthenticatedAdmin, async(req, res)=>{
+app.get("/reqBlog/:id", checkAuthenticatedAdmin, async(req, res)=>{
     const blogID = req.params.id;
         try {
           const blogFind = await Blog.findOne({_id: blogID});
@@ -196,14 +205,14 @@ app.get("/adminBlog/:id", checkAuthenticatedAdmin, async(req, res)=>{
             content: blogFind.content,
             image: blogFind.image,
             user: blogFind.user.username,
-            reqFrom: "admin"
+            reqBlog: "true"
           });
         } catch (err) {
           console.log(err);
         }
 });
 
-app.get("/add/:id", checkAuthenticatedAdmin, async(req, res)=>{
+app.get("/add/:id", checkNotAuthenticatedAdmin, async(req, res)=>{
     const blogID = req.params.id;
     try {
         const blogFind = await Blog.updateOne({_id: blogID}, {$set: {visibility: 1}});
@@ -212,6 +221,43 @@ app.get("/add/:id", checkAuthenticatedAdmin, async(req, res)=>{
       } catch (err) {
         console.log(err);
       }
+});
+
+app.get("/remove/:id", checkNotAuthenticatedAdmin, async(req, res)=>{
+    const blogID = req.params.id;
+    try {
+        const blogDelete = await Blog.deleteOne({_id: blogID});
+        console.log(blogDelete);
+        res.redirect("/admin");
+      } catch (err) {
+        console.log(err);
+      }
+});
+
+app.get("/addedBlogs", checkAuthenticatedAdmin, async (req, res)=>{
+    try {
+        const blogsAll = await Blog.find({visibility: 1});
+        res.render(__dirname+"/view/addedBlogs", { username: req.session.username, blogList: blogsAll, title: "Added Blogs"});
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+app.get("/addedBlog/:id", checkAuthenticatedAdmin, async(req, res)=>{
+    const blogID = req.params.id;
+        try {
+          const blogFind = await Blog.findOne({_id: blogID});
+          res.render(__dirname + "/view/blog", 
+          {
+            id: blogFind._id,
+            title: blogFind.title,
+            content: blogFind.content,
+            image: blogFind.image,
+            user: blogFind.user.username,
+          });
+        } catch (err) {
+          console.log(err);
+        }
 });
 
 app.get("/adminLogin", (req, res)=>{
